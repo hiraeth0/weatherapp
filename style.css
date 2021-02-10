@@ -8,12 +8,16 @@
 *:focus {
     outline: solid 1px rgb(75, 75, 75);
 }
+html {
+    height: calc(100% + 60px);
+    min-height: calc(100% + 60px);
+}
 body {
     display: flex;
     flex-direction: column;
     position: relative;
     margin: 0;
-    padding: 30px 5% 0 5%;
+    padding: 10px 5% 0 5%;
     background: fixed linear-gradient(131deg, #f3c78d, #e7d9c4, #bdbdbd, #9abbca, #61accc);
     background-size: 400% 400%;
     background-position: 50% 50%;
@@ -187,13 +191,13 @@ p {
 /* RESPONSIVE MEDIA QUERIES */
 @media screen and (max-width: 350px) {
     body {
-        padding: 30px 1% 0 1%;
+        padding: 10px 1% 0 1%;
     }
 }
 
 @media screen and (min-width: 650px) {
     body {
-        padding-left: 10%;
+        padding: 30px 5% 0 10%;
     }
     .root__weather {
         display: grid;    
