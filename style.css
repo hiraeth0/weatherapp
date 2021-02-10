@@ -106,7 +106,7 @@ p {
     overflow: hidden;
     transition: background-color 0.5s, height 0.3s;
 }
-.favorites__city--shrinked {
+.favorites__city--shrink {
     height: 0px;
 }
 .forecast__day:hover, 
