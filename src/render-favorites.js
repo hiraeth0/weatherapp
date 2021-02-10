@@ -1,5 +1,3 @@
-import { convertTemp } from './switch-units';
-
 const removeCity = (cityName) => {
     const nodeForRemoval = document.querySelector(`article[data-city="${cityName}"]`);
     nodeForRemoval.classList.toggle('favorites__city--shrink');
@@ -34,17 +32,18 @@ const renderFavorite = (favoritesWeather) => {
 
         cityDiv.setAttribute('class', 'favorites__city favorites__city--shrink');
         cityDiv.setAttribute('data-listener', 'none');
-        cityDiv.setAttribute('data-city', `${favoritesWeather[i].value.name}`);
+        cityDiv.setAttribute('data-city', `${favoritesWeather[i].name}`);
         cityDiv.setAttribute('tabindex', '0');
         wrapper.setAttribute('class', 'city__weather-wrapper');
         name.setAttribute('class', 'weather-wrapper__name');
         temperature.setAttribute('class', 'weather-wrapper__temp unit');
         status.setAttribute('class', 'city__status');
 
-        name.textContent = favoritesWeather[i].value.name;
-        temperature.textContent = convertTemp(favoritesWeather[i].value.main.temp);
-        temperature.setAttribute('data-temp', favoritesWeather[i].value.main.temp);
-        status.textContent = favoritesWeather[i].value.weather[0].description;
+        name.textContent = favoritesWeather[i].name;
+        temperature.textContent = favoritesWeather[i].temp.currentUnits;
+        temperature.setAttribute('data-celsius', favoritesWeather[i].temp.celsius);
+        temperature.setAttribute('data-fahrenheit', favoritesWeather[i].temp.fahrenheit);
+        status.textContent = favoritesWeather[i].description;
 
         favoriteCitiesContainer.appendChild(cityDiv);
         cityDiv.appendChild(wrapper);

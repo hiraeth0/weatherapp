@@ -1,10 +1,12 @@
 import { getWeather, getFavoriteWeather, getLocation } from './get-weather';
 import { updateCityList, renderFavorite } from './render-favorites';
-import { switchUnits } from './switch-units';
+import switchUnits from './switch-units';
 import { renderWeather, updateToggleButton } from './render-weather';
+import { convertWeather, convertForecast } from './handle-data';
 
-const showError = () => {
+const showError = (message) => {
     const errorText = document.querySelector('.root__error');
+    errorText.textContent = message;
     errorText.style.visibility = 'visible';
     errorText.style.opacity = '1';
 };
@@ -33,7 +35,10 @@ const addCityListeners = () => {
         cities[i].addEventListener('click', async () => {
             const cityName = cities[i].dataset.city;
             const response = await getWeather(cityName);
-            renderWeather(response.weatherData, response.forecastData);
+            const weatherData = convertWeather(response.weatherData);
+            console.log(weatherData);
+            const forecastData = convertForecast(response.forecastData);
+            renderWeather(weatherData, forecastData);
             removeExpandModifier();
             hideError();
             setTimeout(() => {
@@ -42,45 +47,6 @@ const addCityListeners = () => {
         });
     }
 };
-
-(() => {
-    const locationInput = document.querySelector('.root__input-location');
-    locationInput.addEventListener('keydown', async (event) => {
-        if (event.key === 'Enter') {
-            try {
-                const response = await getWeather(locationInput.value);
-                renderWeather(response.weatherData, response.forecastData);
-                removeExpandModifier();
-                hideError();
-            } catch (err) {
-                showError();
-            }
-            locationInput.value = '';
-        }
-    });
-})();
-
-(() => {
-    const unitSwitchButton = document.querySelector('.current-info__switch-units');
-    unitSwitchButton.addEventListener('click', switchUnits);
-})();
-
-(() => {
-    const favoriteSwitchButton = document.querySelector('.current-info__switch-favorite');
-    favoriteSwitchButton.addEventListener('click', async () => {
-        updateCityList();
-        updateToggleButton();
-
-        const favoriteCities = JSON.parse(window.localStorage.getItem('favoriteCities'));
-        let renderedCitites = Array.from(document.querySelectorAll('.favorites__city'));
-        renderedCitites = renderedCitites.map((node) => node.dataset.city);
-        const cititesToRender = favoriteCities.filter((city) => !renderedCitites.includes(city));
-
-        const response = await getFavoriteWeather(cititesToRender);
-        renderFavorite(response);
-        addCityListeners();
-    });
-})();
 
 (() => {
     const allDays = document.querySelectorAll('.forecast__day');
@@ -96,21 +62,74 @@ const addCityListeners = () => {
     }
 })();
 
-(async () => {
-    const favoriteCities = JSON.parse(window.localStorage.getItem('favoriteCities'));
-    if (favoriteCities === null) return; 
+(() => {
+    const unitSwitchButton = document.querySelector('.current-info__switch-units');
+    unitSwitchButton.addEventListener('click', switchUnits);
+})();
 
-    const response = await getFavoriteWeather(favoriteCities);
-    renderFavorite(response);
+(() => {
+    const locationInput = document.querySelector('.root__input-location');
+    locationInput.addEventListener('keydown', async (event) => {
+        if (event.key === 'Enter') {
+            try {
+                const response = await getWeather(locationInput.value);
+                const weatherData = convertWeather(response.weatherData);
+                const forecastData = convertForecast(response.forecastData);
+                renderWeather(weatherData, forecastData);
+                removeExpandModifier();
+                hideError();
+            } catch (err) {
+                showError('location not found');
+            }
+            locationInput.value = '';
+        }
+    });
+})();
+
+(() => {
+    const favoriteSwitchButton = document.querySelector('.current-info__switch-favorite');
+    favoriteSwitchButton.addEventListener('click', async () => {
+        updateCityList();
+        updateToggleButton();
+
+        const favoriteCities = JSON.parse(window.localStorage.getItem('favoriteCities'));
+        let renderedCitites = Array.from(document.querySelectorAll('.favorites__city'));
+        renderedCitites = renderedCitites.map((node) => node.dataset.city);
+        const cititesToRender = favoriteCities.filter((city) => !renderedCitites.includes(city));
+
+        const response = await getFavoriteWeather(cititesToRender);
+        const citiesData = response.map((city) => convertWeather(city.value));
+        renderFavorite(citiesData);
+        addCityListeners();
+    });
+})();
+
+(() => {
+    const savedCities = JSON.parse(window.localStorage.getItem('favoriteCities'));
+    if (savedCities === null) {
+        const defaultCities = JSON.stringify(['Perth', 'London', 'Yakutsk']);
+        localStorage.setItem('favoriteCities', defaultCities);
+    }
+})();
+
+(async () => {
+    const savedCities = JSON.parse(window.localStorage.getItem('favoriteCities'));
+    if (savedCities === null || savedCities === []) return; 
+
+    const response = await getFavoriteWeather(savedCities);
+    const citiesData = response.map((city) => convertWeather(city.value));
+    renderFavorite(citiesData);
     addCityListeners();
 })();
 
 (async () => {
     try {
-        const response = await getLocation();
-        const data = await getWeather(response.location.city);
-        renderWeather(data.weatherData, data.forecastData);
+        const locationResponse = await getLocation();
+        const response = await getWeather(locationResponse.location.city);
+        const weatherData = convertWeather(response.weatherData);
+        const forecastData = convertForecast(response.forecastData);
+        renderWeather(weatherData, forecastData);
     } catch (err) {
-        showError();
+        showError('could not get location by IP adress');
     }
 })();

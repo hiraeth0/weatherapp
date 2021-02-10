@@ -1,18 +1,3 @@
-import { convertTemp } from './switch-units';
-
-const getWeekDay = (unixTime) => {
-    const week = [
-        'Sunday',
-        'Monday',
-        'Tuesday',
-        'Wednesday',
-        'Thursday',
-        'Friday',
-        'Saturday',
-    ];
-    return week[(Math.floor((unixTime / 86400) + 4) % 7)];
-};
-
 const renderWeatherInfo = (current) => {
     const location = document.querySelector('.weather__location');
     const weatherStatus = document.querySelector('.current-info__status');
@@ -20,11 +5,13 @@ const renderWeatherInfo = (current) => {
     const tempFeeling = document.querySelector('.feel__temp');
 
     location.textContent = current.name;
-    weatherStatus.textContent = current.weather[0].description;
-    temp.textContent = convertTemp(current.main.temp);
-    temp.setAttribute('data-temp', current.main.temp);
-    tempFeeling.textContent = convertTemp(current.main.feels_like);
-    tempFeeling.setAttribute('data-temp', current.main.feels_like);
+    weatherStatus.textContent = current.description;
+    temp.textContent = current.temp.currentUnits;
+    temp.setAttribute('data-celsius', current.temp.celsius);
+    temp.setAttribute('data-fahrenheit', current.temp.fahrenheit);
+    tempFeeling.textContent = current.tempFeeling.currentUnits;
+    tempFeeling.setAttribute('data-celsius', current.tempFeeling.celsius);
+    tempFeeling.setAttribute('data-fahrenheit', current.tempFeeling.fahrenheit);
 };
 
 const renderForecastInfo = (forecast) => {
@@ -34,13 +21,14 @@ const renderForecastInfo = (forecast) => {
     const statusArray = document.querySelectorAll('.forecast-info__status');
 
     for (let i = 0; i < 7; i++) {
-        const weekDayDate = new Date(new Date().setDate(new Date().getDate() + i)).getDate();
-        weekDayArray[i].textContent = `${getWeekDay(forecast.daily[i].dt)}, ${weekDayDate}`;
-        tempDayArray[i].textContent = convertTemp(forecast.daily[i].temp.day);
-        tempDayArray[i].setAttribute('data-temp', forecast.daily[i].temp.day);
-        tempNightArray[i].textContent = convertTemp(forecast.daily[i].temp.night);
-        tempNightArray[i].setAttribute('data-temp', forecast.daily[i].temp.night);
-        statusArray[i].textContent = forecast.daily[i].weather[0].description;
+        weekDayArray[i].textContent = forecast[i].weekDay;
+        tempDayArray[i].textContent = forecast[i].tempDay.currentUnits;
+        tempDayArray[i].setAttribute('data-celsius', forecast[i].tempDay.celsius);
+        tempDayArray[i].setAttribute('data-fahrenheit', forecast[i].tempDay.fahrenheit);
+        tempNightArray[i].textContent = forecast[i].tempNight.currentUnits;
+        tempNightArray[i].setAttribute('data-celsius', forecast[i].tempNight.celsius);
+        tempNightArray[i].setAttribute('data-fahrenheit', forecast[i].tempNight.fahrenheit);
+        statusArray[i].textContent = forecast[i].description;
     }
 };
 
@@ -56,31 +44,28 @@ const renderForecastInfoDetails = (forecast) => {
     const night = document.querySelectorAll('.item__temp-night');
 
     for (let i = 0; i < forecastContainers.length; i++) {
-        wind[i].textContent = `${Math.round(forecast.daily[i].wind_speed)}m/s`;
-        pressure[i].textContent = Math.round(forecast.daily[i].pressure * 0.75);
-        humidity[i].textContent = `${forecast.daily[i].humidity}%`;
-        ultraviolet[i].textContent = Math.round(forecast.daily[i].uvi * 10) / 10;
-        morning[i].textContent = convertTemp(forecast.daily[i].temp.morn);
-        morning[i].setAttribute('data-temp', forecast.daily[i].temp.morn);
-        day[i].textContent = convertTemp(forecast.daily[i].temp.day);
-        day[i].setAttribute('data-temp', forecast.daily[i].temp.day);
-        evening[i].textContent = convertTemp(forecast.daily[i].temp.eve);
-        evening[i].setAttribute('data-temp', forecast.daily[i].temp.eve);
-        night[i].textContent = convertTemp(forecast.daily[i].temp.night);
-        night[i].setAttribute('data-temp', forecast.daily[i].temp.night);
+        wind[i].textContent = forecast[i].wind;
+        pressure[i].textContent = forecast[i].pressure;
+        humidity[i].textContent = forecast[i].humidity;
+        ultraviolet[i].textContent = forecast[i].uvi;
+        morning[i].textContent = forecast[i].tempMorning.currentUnits;
+        morning[i].setAttribute('data-celsius', forecast[i].tempMorning.celsius);
+        morning[i].setAttribute('data-fahrenheit', forecast[i].tempMorning.fahrenheit);
+        day[i].textContent = forecast[i].tempDay.currentUnits;
+        day[i].setAttribute('data-celsius', forecast[i].tempDay.celsius);
+        day[i].setAttribute('data-fahrenheit', forecast[i].tempDay.fahrenheit);
+        evening[i].textContent = forecast[i].tempEvening.currentUnits;
+        evening[i].setAttribute('data-celsius', forecast[i].tempEvening.celsius);
+        evening[i].setAttribute('data-fahrenheit', forecast[i].tempEvening.fahrenheit);
+        night[i].textContent = forecast[i].tempNight.currentUnits;
+        night[i].setAttribute('data-celsius', forecast[i].tempNight.celsius);
+        night[i].setAttribute('data-fahrenheit', forecast[i].tempNight.fahrenheit);
     }
 };
 
 const backgroundTransition = (current) => {
-    const transitionPosition = (temp) => {
-        if (temp > 30) return '0% 0%';
-        if (temp < -30) return '100% 100%';
-
-        const newPosition = -Math.round((temp / 30) * 50) + 50;
-        return `${newPosition}% ${newPosition}%`;
-    };
     const body = document.querySelector('body');
-    body.style.backgroundPosition = transitionPosition(current.main.temp);
+    body.style.backgroundPosition = current.position;
 };
 
 const updateToggleButton = () => {
