@@ -64,8 +64,8 @@ const renderForecastInfoDetails = (forecast) => {
 };
 
 const backgroundTransition = (current) => {
-    const body = document.querySelector('body');
-    body.style.backgroundPosition = current.position;
+    const background = document.querySelector('.background');
+    background.style.backgroundPosition = current.position;
 };
 
 const updateToggleButton = () => {

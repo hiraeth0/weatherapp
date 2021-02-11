@@ -130,6 +130,6 @@ const addCityListeners = () => {
         const forecastData = convertForecast(response.forecastData);
         renderWeather(weatherData, forecastData);
     } catch (err) {
-        showError('could not get location by IP adress');
+        showError('could not get location by IP address');
     }
 })();
