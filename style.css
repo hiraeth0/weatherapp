@@ -9,20 +9,23 @@
     outline: solid 1px rgb(75, 75, 75);
 }
 html {
-    height: calc(100% + 60px);
-    min-height: calc(100% + 60px);
+    height: 100%;
 }
-body {
-    display: flex;
-    flex-direction: column;
-    position: relative;
-    margin: 0;
-    padding: 10px 5% 0 5%;
+.background {
+    height: 100%;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: -1;
     background: fixed linear-gradient(131deg, #f3c78d, #e7d9c4, #bdbdbd, #9abbca, #61accc);
     background-size: 400% 400%;
     background-position: 50% 50%;
-    transform: translate3d(0,0,0);
     transition: background-position 3.5s;
+}
+body {
+    margin: 0;
+    padding: 10px 5% 0 5%;
 }
 p {
     margin: 0 0 0 0;
