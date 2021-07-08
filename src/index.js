@@ -1,135 +1,81 @@
-import { getWeather, getFavoriteWeather, getLocation } from './get-weather';
-import { updateCityList, renderFavorite } from './render-favorites';
-import switchUnits from './switch-units';
-import { renderWeather, updateToggleButton } from './render-weather';
-import { convertWeather, convertForecast } from './handle-data';
+import { weather, savedWeather } from './weather';
+import storage from './storage';
+import { convertTemp } from './convert';
+import { renderWeather, renderStorage, toggleButton } from './render';
+import handleError from './handleError';
+import loader from './loader';
 
-const showError = (message) => {
-    const errorText = document.querySelector('.root__error');
-    errorText.textContent = message;
-    errorText.style.visibility = 'visible';
-    errorText.style.opacity = '1';
-};
+(function addEventListeners() {
+  const forecastDays = document.querySelectorAll('.day');
+  const unitSwitchButton = document.querySelector('.weather__switch-units');
+  const locationInput = document.querySelector('.search__input');
+  const favoriteSwitchButton = document.querySelector('.weather__switch-favorite');
 
-const hideError = () => {
-    const errorText = document.querySelector('.root__error');
-    errorText.style.opacity = '0';
-    setTimeout(() => {
-        errorText.style.visibility = 'hidden';
-    }, 505);
-};
+  forecastDays.forEach((element) => element.addEventListener('click', () => element.classList.toggle('day--expand')));
 
-const removeExpandModifier = () => {
-    const allDays = document.querySelectorAll('.forecast__day');
-    setTimeout(() => {
-        for (let i = 0; i < allDays.length; i++) {
-            allDays[i].classList.remove('forecast__day--expand');
-        } 
-    }, 505);
-};
+  unitSwitchButton.addEventListener('click', () => {
+    const switchButton = document.querySelector('.weather__switch-units');
+    const unitNodes = document.querySelectorAll('.unit');
 
-const addCityListeners = () => {
-    const cities = document.querySelectorAll('article[data-listener="none"]');
-    for (let i = 0; i < cities.length; i++) {
-        cities[i].setAttribute('data-listener', 'added');
-        cities[i].addEventListener('click', async () => {
-            const cityName = cities[i].dataset.city;
-            const response = await getWeather(cityName);
-            const weatherData = convertWeather(response.weatherData);
-            console.log(weatherData);
-            const forecastData = convertForecast(response.forecastData);
-            renderWeather(weatherData, forecastData);
-            removeExpandModifier();
-            hideError();
-            setTimeout(() => {
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            }, 300);
-        });
+    convertTemp.switchUnits();
+
+    if (convertTemp.units === 'c') {
+      switchButton.textContent = 'celsius';
+      unitNodes.forEach((node) => { node.textContent = node.dataset.celsius; });
+    } else if (convertTemp.units === 'f') {
+      switchButton.textContent = 'fahrenheit';
+      unitNodes.forEach((node) => { node.textContent = node.dataset.fahrenheit; });
     }
-};
+  });
 
-(() => {
-    const allDays = document.querySelectorAll('.forecast__day');
-    for (let i = 0; i < allDays.length; i++) {
-        allDays[i].addEventListener('click', () => {
-            if (!allDays[i].classList.contains('forecast__day--expand')) {
-                for (let f = 0; f < allDays.length; f++) {
-                    allDays[f].classList.remove('forecast__day--expand');
-                }
-            }
-            allDays[i].classList.toggle('forecast__day--expand');
-        });
+  locationInput.addEventListener('keydown', async (event) => {
+    if (event.key === 'Enter') {
+      const city = locationInput.value.trim();
+      locationInput.value = '';
+
+      if (city.length < 1) {
+        handleError.show('No empty queries!');
+        return;
+      }
+
+      handleError.hide();
+      loader.mount();
+
+      await weather.get(city);
+      if (weather.data) {
+        forecastDays.forEach((element) => element.classList.remove('day--expand'));
+        renderWeather(weather.data);
+      }
+
+      loader.unmount();
     }
-})();
+  });
 
-(() => {
-    const unitSwitchButton = document.querySelector('.current-info__switch-units');
-    unitSwitchButton.addEventListener('click', switchUnits);
-})();
+  favoriteSwitchButton.addEventListener('click', async () => {
+    const city = weather.data.current.name;
 
-(() => {
-    const locationInput = document.querySelector('.root__input-location');
-    locationInput.addEventListener('keydown', async (event) => {
-        if (event.key === 'Enter') {
-            try {
-                const response = await getWeather(locationInput.value);
-                const weatherData = convertWeather(response.weatherData);
-                const forecastData = convertForecast(response.forecastData);
-                renderWeather(weatherData, forecastData);
-                removeExpandModifier();
-                hideError();
-            } catch (err) {
-                showError('location not found');
-            }
-            locationInput.value = '';
-        }
-    });
-})();
-
-(() => {
-    const favoriteSwitchButton = document.querySelector('.current-info__switch-favorite');
-    favoriteSwitchButton.addEventListener('click', async () => {
-        updateCityList();
-        updateToggleButton();
-
-        const favoriteCities = JSON.parse(window.localStorage.getItem('favoriteCities'));
-        let renderedCitites = Array.from(document.querySelectorAll('.favorites__city'));
-        renderedCitites = renderedCitites.map((node) => node.dataset.city);
-        const cititesToRender = favoriteCities.filter((city) => !renderedCitites.includes(city));
-
-        const response = await getFavoriteWeather(cititesToRender);
-        const citiesData = response.map((city) => convertWeather(city.value));
-        renderFavorite(citiesData);
-        addCityListeners();
-    });
-})();
-
-(() => {
-    const savedCities = JSON.parse(window.localStorage.getItem('favoriteCities'));
-    if (savedCities === null) {
-        const defaultCities = JSON.stringify(['Perth', 'London', 'Yakutsk']);
-        localStorage.setItem('favoriteCities', defaultCities);
+    if (storage.isIncluded(city)) {
+      storage.remove(city);
+      const node = document.querySelector(`article[data-city="${city}"]`);
+      node.remove();
+    } else {
+      storage.add(city);
+      await savedWeather.get([city]);
+      if (savedWeather.data) renderStorage(savedWeather.data);
     }
+
+    toggleButton(city);
+  });
 })();
 
-(async () => {
-    const savedCities = JSON.parse(window.localStorage.getItem('favoriteCities'));
-    if (savedCities === null || savedCities === []) return; 
+(async function initialize() {
+  loader.mount();
 
-    const response = await getFavoriteWeather(savedCities);
-    const citiesData = response.map((city) => convertWeather(city.value));
-    renderFavorite(citiesData);
-    addCityListeners();
-})();
+  await weather.get('Saint Petersburg');
+  if (weather.data) renderWeather(weather.data);
 
-(async () => {
-    try {
-        const locationResponse = await getLocation();
-        const response = await getWeather(locationResponse.location.city);
-        const weatherData = convertWeather(response.weatherData);
-        const forecastData = convertForecast(response.forecastData);
-        renderWeather(weatherData, forecastData);
-    } catch (err) {
-        showError('could not get location by IP address');
-    }
+  await savedWeather.get(storage.cities);
+  if (savedWeather.data) renderStorage(savedWeather.data);
+
+  loader.unmount();
 })();

@@ -4,10 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
     <title>Weather App</title>
-    <link rel="apple-touch-icon" sizes="180x180" href="../favicons/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="favicons/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="favicons/favicon-16x16.png">
-    <link rel="mask-icon" href="favicons/safari-pinned-tab.svg" color="#5bbad5">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
     <meta name="msapplication-TileColor" content="#da532c">
     <meta name="theme-color" content="#ffffff">
     <link rel="stylesheet" href="style.css">
@@ -16,334 +17,358 @@
 </head>
 <body>
     <div class="root">
-        <p class="root__error">error</p>
-        <input tabindex="0" type="text" placeholder="Enter city" class="root__input-location">
-        <div class="root__weather">
-            <h1 class="weather__location"></h1>
-            <article class="weather__current-info">
-                <p class="current-info__temp unit"></p>
-                <p class="current-info__status"></p>
-                <p class="current-info__feel">
-                    feels like
-                    <span class="feel__temp unit"></span>
-                </p>
-                <span tabindex="0" class="current-info__switch-units" title="Switch temperature units" data-unit="celsius">celsius</span>
-                <br>
-                <span tabindex="0" class="current-info__switch-favorite" title="Save city to favorites">save city</span>
-            </article>
-            <div class="weather__forecast">
-                <article tabindex="0" class="forecast__day">
-                    <div class="day__forecast-info">
-                        <p class="forecast-info__weather-wrapper">
-                            <span class="weather-wrapper__week-day"></span>
-                            <span class="weather-wrapper__temp-day unit" title="Day temperature"></span>
-                            <span class="weather-wrapper__temp-night unit" title="Night temperature"></span>
-                        </p>
-                        <p class=forecast-info__status></p>
-                    </div>
-                    <div class=day__details> 
-                        <div class="details__item">
-                            <img src="images/wind64.png" class="item__image" title="Wind speed">
-                            <span class="item__wind"></span>
-                        </div>
-                        <div class="details__item">
-                            <img src="images/pressure64.png" class="item__image" title="Atmospheric pressure">
-                            <span class="item__pressure"></span>
-                        </div>
-                        <div class="details__item">
-                            <img src="images/humidity64.png" class="item__image" title="Air humidity">
-                            <span class="item__humidity"></span>
-                        </div>
-                        <div class="details__item">
-                            <img src="images/ultraviolet64.png" class="item__image" title="Ultraviolet index">
-                            <span class="item__uvi"></span>
-                        </div>
-                        <div class="details__item">
-                            <span class="item__time">6:00</span>
-                            <span class="item__temp-morning unit"></span>
-                        </div>
-                        <div class="details__item">
-                            <span class="item__time">12:00</span>
-                            <span class="item__temp-day unit"></span>
-                        </div>
-                        <div class="details__item">
-                            <span class="item__time">18:00</span>
-                            <span class="item__temp-evening unit"></span>
-                        </div>
-                        <div class="details__item">
-                            <span class="item__time">0:00</span>
-                            <span class="item__temp-night unit"></span>
-                        </div>
-                    </div>
-                </article>
-                <article tabindex="0" class="forecast__day">
-                    <div class="day__forecast-info">
-                        <p class="forecast-info__weather-wrapper">
-                            <span class="weather-wrapper__week-day"></span>
-                            <span class="weather-wrapper__temp-day unit" title="Day temperature"></span>
-                            <span class="weather-wrapper__temp-night unit" title="Night temperature"></span>
-                        </p>
-                        <p class=forecast-info__status></p>
-                    </div>
-                    <div class=day__details> 
-                        <div class="details__item">
-                            <img src="images/wind64.png" class="item__image" title="Wind speed">
-                            <span class="item__wind"></span>
-                        </div>
-                        <div class="details__item">
-                            <img src="images/pressure64.png" class="item__image" title="Atmospheric pressure">
-                            <span class="item__pressure"></span>
-                        </div>
-                        <div class="details__item">
-                            <img src="images/humidity64.png" class="item__image" title="Air humidity">
-                            <span class="item__humidity"></span>
-                        </div>
-                        <div class="details__item">
-                            <img src="images/ultraviolet64.png" class="item__image" title="Ultraviolet index">
-                            <span class="item__uvi"></span>
-                        </div>
-                        <div class="details__item">
-                            <span class="item__time">6:00</span>
-                            <span class="item__temp-morning unit"></span>
-                        </div>
-                        <div class="details__item">
-                            <span class="item__time">12:00</span>
-                            <span class="item__temp-day unit"></span>
-                        </div>
-                        <div class="details__item">
-                            <span class="item__time">18:00</span>
-                            <span class="item__temp-evening unit"></span>
-                        </div>
-                        <div class="details__item">
-                            <span class="item__time">0:00</span>
-                            <span class="item__temp-night unit"></span>
-                        </div>
-                    </div>
-                </article>
-                <article tabindex="0" class="forecast__day">
-                    <div class="day__forecast-info">
-                        <p class="forecast-info__weather-wrapper">
-                            <span class="weather-wrapper__week-day"></span>
-                            <span class="weather-wrapper__temp-day unit" title="Day temperature"></span>
-                            <span class="weather-wrapper__temp-night unit" title="Night temperature"></span>
-                        </p>
-                        <p class=forecast-info__status></p>
-                    </div>
-                    <div class=day__details> 
-                        <div class="details__item">
-                            <img src="images/wind64.png" class="item__image" title="Wind speed">
-                            <span class="item__wind"></span>
-                        </div>
-                        <div class="details__item">
-                            <img src="images/pressure64.png" class="item__image" title="Atmospheric pressure">
-                            <span class="item__pressure"></span>
-                        </div>
-                        <div class="details__item">
-                            <img src="images/humidity64.png" class="item__image" title="Air humidity">
-                            <span class="item__humidity"></span>
-                        </div>
-                        <div class="details__item">
-                            <img src="images/ultraviolet64.png" class="item__image" title="Ultraviolet index">
-                            <span class="item__uvi"></span>
-                        </div>
-                        <div class="details__item">
-                            <span class="item__time">6:00</span>
-                            <span class="item__temp-morning unit"></span>
-                        </div>
-                        <div class="details__item">
-                            <span class="item__time">12:00</span>
-                            <span class="item__temp-day unit"></span>
-                        </div>
-                        <div class="details__item">
-                            <span class="item__time">18:00</span>
-                            <span class="item__temp-evening unit"></span>
-                        </div>
-                        <div class="details__item">
-                            <span class="item__time">0:00</span>
-                            <span class="item__temp-night unit"></span>
-                        </div>
-                    </div>
-                </article>
-                <article tabindex="0" class="forecast__day">
-                    <div class="day__forecast-info">
-                        <p class="forecast-info__weather-wrapper">
-                            <span class="weather-wrapper__week-day"></span>
-                            <span class="weather-wrapper__temp-day unit" title="Day temperature"></span>
-                            <span class="weather-wrapper__temp-night unit" title="Night temperature"></span>
-                        </p>
-                        <p class=forecast-info__status></p>
-                    </div>
-                    <div class=day__details> 
-                        <div class="details__item">
-                            <img src="images/wind64.png" class="item__image" title="Wind speed">
-                            <span class="item__wind"></span>
-                        </div>
-                        <div class="details__item">
-                            <img src="images/pressure64.png" class="item__image" title="Atmospheric pressure">
-                            <span class="item__pressure"></span>
-                        </div>
-                        <div class="details__item">
-                            <img src="images/humidity64.png" class="item__image" title="Air humidity">
-                            <span class="item__humidity"></span>
-                        </div>
-                        <div class="details__item">
-                            <img src="images/ultraviolet64.png" class="item__image" title="Ultraviolet index">
-                            <span class="item__uvi"></span>
-                        </div>
-                        <div class="details__item">
-                            <span class="item__time">6:00</span>
-                            <span class="item__temp-morning unit"></span>
-                        </div>
-                        <div class="details__item">
-                            <span class="item__time">12:00</span>
-                            <span class="item__temp-day unit"></span>
-                        </div>
-                        <div class="details__item">
-                            <span class="item__time">18:00</span>
-                            <span class="item__temp-evening unit"></span>
-                        </div>
-                        <div class="details__item">
-                            <span class="item__time">0:00</span>
-                            <span class="item__temp-night unit"></span>
-                        </div>
-                    </div>
-                </article>
-                <article tabindex="0" class="forecast__day">
-                    <div class="day__forecast-info">
-                        <p class="forecast-info__weather-wrapper">
-                            <span class="weather-wrapper__week-day"></span>
-                            <span class="weather-wrapper__temp-day unit" title="Day temperature"></span>
-                            <span class="weather-wrapper__temp-night unit" title="Night temperature"></span>
-                        </p>
-                        <p class=forecast-info__status></p>
-                    </div>
-                    <div class=day__details> 
-                        <div class="details__item">
-                            <img src="images/wind64.png" class="item__image" title="Wind speed">
-                            <span class="item__wind"></span>
-                        </div>
-                        <div class="details__item">
-                            <img src="images/pressure64.png" class="item__image" title="Atmospheric pressure">
-                            <span class="item__pressure"></span>
-                        </div>
-                        <div class="details__item">
-                            <img src="images/humidity64.png" class="item__image" title="Air humidity">
-                            <span class="item__humidity"></span>
-                        </div>
-                        <div class="details__item">
-                            <img src="images/ultraviolet64.png" class="item__image" title="Ultraviolet index">
-                            <span class="item__uvi"></span>
-                        </div>
-                        <div class="details__item">
-                            <span class="item__time">6:00</span>
-                            <span class="item__temp-morning unit"></span>
-                        </div>
-                        <div class="details__item">
-                            <span class="item__time">12:00</span>
-                            <span class="item__temp-day unit"></span>
-                        </div>
-                        <div class="details__item">
-                            <span class="item__time">18:00</span>
-                            <span class="item__temp-evening unit"></span>
-                        </div>
-                        <div class="details__item">
-                            <span class="item__time">0:00</span>
-                            <span class="item__temp-night unit"></span>
-                        </div>
-                    </div>
-                </article>
-                <article tabindex="0" class="forecast__day">
-                    <div class="day__forecast-info">
-                        <p class="forecast-info__weather-wrapper">
-                            <span class="weather-wrapper__week-day"></span>
-                            <span class="weather-wrapper__temp-day unit" title="Day temperature"></span>
-                            <span class="weather-wrapper__temp-night unit" title="Night temperature"></span>
-                        </p>
-                        <p class=forecast-info__status></p>
-                    </div>
-                    <div class=day__details> 
-                        <div class="details__item">
-                            <img src="images/wind64.png" class="item__image" title="Wind speed">
-                            <span class="item__wind"></span>
-                        </div>
-                        <div class="details__item">
-                            <img src="images/pressure64.png" class="item__image" title="Atmospheric pressure">
-                            <span class="item__pressure"></span>
-                        </div>
-                        <div class="details__item">
-                            <img src="images/humidity64.png" class="item__image" title="Air humidity">
-                            <span class="item__humidity"></span>
-                        </div>
-                        <div class="details__item">
-                            <img src="images/ultraviolet64.png" class="item__image" title="Ultraviolet index">
-                            <span class="item__uvi"></span>
-                        </div>
-                        <div class="details__item">
-                            <span class="item__time">6:00</span>
-                            <span class="item__temp-morning unit"></span>
-                        </div>
-                        <div class="details__item">
-                            <span class="item__time">12:00</span>
-                            <span class="item__temp-day unit"></span>
-                        </div>
-                        <div class="details__item">
-                            <span class="item__time">18:00</span>
-                            <span class="item__temp-evening unit"></span>
-                        </div>
-                        <div class="details__item">
-                            <span class="item__time">0:00</span>
-                            <span class="item__temp-night unit"></span>
-                        </div>
-                    </div>
-                </article>
-                <article tabindex="0" class="forecast__day">
-                    <div class="day__forecast-info">
-                        <p class="forecast-info__weather-wrapper">
-                            <span class="weather-wrapper__week-day"></span>
-                            <span class="weather-wrapper__temp-day unit" title="Day temperature"></span>
-                            <span class="weather-wrapper__temp-night unit" title="Night temperature"></span>
-                        </p>
-                        <p class=forecast-info__status></p>
-                    </div>
-                    <div class=day__details> 
-                        <div class="details__item">
-                            <img src="images/wind64.png" class="item__image" title="Wind speed">
-                            <span class="item__wind"></span>
-                        </div>
-                        <div class="details__item">
-                            <img src="images/pressure64.png" class="item__image" title="Atmospheric pressure">
-                            <span class="item__pressure"></span>
-                        </div>
-                        <div class="details__item">
-                            <img src="images/humidity64.png" class="item__image" title="Air humidity">
-                            <span class="item__humidity"></span>
-                        </div>
-                        <div class="details__item">
-                            <img src="images/ultraviolet64.png" class="item__image" title="Ultraviolet index">
-                            <span class="item__uvi"></span>
-                        </div>
-                        <div class="details__item">
-                            <span class="item__time">6:00</span>
-                            <span class="item__temp-morning unit"></span>
-                        </div>
-                        <div class="details__item">
-                            <span class="item__time">12:00</span>
-                            <span class="item__temp-day unit"></span>
-                        </div>
-                        <div class="details__item">
-                            <span class="item__time">18:00</span>
-                            <span class="item__temp-evening unit"></span>
-                        </div>
-                        <div class="details__item">
-                            <span class="item__time">0:00</span>
-                            <span class="item__temp-night unit"></span>
-                        </div>
-                    </div>
-                </article>
+        <div class="search">
+            <div class="search__error invisible">
+                Error
             </div>
-            <div class="weather__favorites"></div>
-        </div>    
+            <input class="search__input" tabindex="0" type="text" placeholder="Enter location">
+        </div>
+        <main class="container">
+            <h1 class="location"></h1>
+            <div class="weather">
+                <div class="weather__current">
+                    <div class="weather__temp unit"></div>
+                    <div class="weather__status"></div>
+                    <div class="weather__feel">
+                        feels like
+                        <span class="weather__feel-temp unit"></span>
+                    </div>
+                    <button tabindex="0" class="weather__switch-units" title="Switch temperature units">
+                        celsius
+                    </button>
+                    <button tabindex="0" class="weather__switch-favorite" title="Add city to favorites">
+                        save city
+                    </button>
+                </div>
+                <div class="forecast">
+                    <article class="day" tabindex="0">
+                        <div class="day__info">
+                            <div class="day__weather">
+                                <span class="day__week-day"></span>
+                                <div class="day__temps">
+                                    <span class="day__temp-day unit" title="Day temperature"></span>
+                                    <span class="day__temp-night unit" title="Night temperature"></span>
+                                </div>
+                            </div>
+                            <div class="day__status"></div>
+                        </div>
+                        <div class="details"> 
+                            <div class="details__item">
+                                <img class="details__image" src="images/wind64.png" title="Wind speed">
+                                <div class="details__wind"></div>
+                            </div>
+                            <div class="details__item">
+                                <img class="details__image" src="images/pressure64.png" title="Atmospheric pressure">
+                                <div class="details__pressure"></div>
+                            </div>
+                            <div class="details__item">
+                                <img class="details__image" src="images/humidity64.png" title="Air humidity">
+                                <div class="details__humidity"></div>
+                            </div>
+                            <div class="details__item">
+                                <img class="details__image" src="images/ultraviolet64.png" title="Ultraviolet index">
+                                <div class="details__uvi"></div>
+                            </div>
+                            <div class="details__item">
+                                <div class="details__time">6:00</div>
+                                <div class="details__temp-morning unit"></div>
+                            </div>
+                            <div class="details__item">
+                                <div class="details__time">12:00</div>
+                                <div class="details__temp-day unit"></div>
+                            </div>
+                            <div class="details__item">
+                                <div class="details__time">18:00</div>
+                                <div class="details__temp-evening unit"></div>
+                            </div>
+                            <div class="details__item">
+                                <div class="details__time">0:00</div>
+                                <div class="details__temp-night unit"></div>
+                            </div>
+                        </div>
+                    </article>
+                    <article class="day" tabindex="0">
+                        <div class="day__info">
+                            <div class="day__weather">
+                                <span class="day__week-day"></span>
+                                <div class="day__temps">
+                                    <span class="day__temp-day unit" title="Day temperature"></span>
+                                    <span class="day__temp-night unit" title="Night temperature"></span>
+                                </div>
+                            </div>
+                            <div class="day__status"></div>
+                        </div>
+                        <div class="details"> 
+                            <div class="details__item">
+                                <img class="details__image" src="images/wind64.png" title="Wind speed">
+                                <div class="details__wind"></div>
+                            </div>
+                            <div class="details__item">
+                                <img class="details__image" src="images/pressure64.png" title="Atmospheric pressure">
+                                <div class="details__pressure"></div>
+                            </div>
+                            <div class="details__item">
+                                <img class="details__image" src="images/humidity64.png" title="Air humidity">
+                                <div class="details__humidity"></div>
+                            </div>
+                            <div class="details__item">
+                                <img class="details__image" src="images/ultraviolet64.png" title="Ultraviolet index">
+                                <div class="details__uvi"></div>
+                            </div>
+                            <div class="details__item">
+                                <div class="details__time">6:00</div>
+                                <div class="details__temp-morning unit"></div>
+                            </div>
+                            <div class="details__item">
+                                <div class="details__time">12:00</div>
+                                <div class="details__temp-day unit"></div>
+                            </div>
+                            <div class="details__item">
+                                <div class="details__time">18:00</div>
+                                <div class="details__temp-evening unit"></div>
+                            </div>
+                            <div class="details__item">
+                                <div class="details__time">0:00</div>
+                                <div class="details__temp-night unit"></div>
+                            </div>
+                        </div>
+                    </article>
+                    <article class="day" tabindex="0">
+                        <div class="day__info">
+                            <div class="day__weather">
+                                <span class="day__week-day"></span>
+                                <div class="day__temps">
+                                    <span class="day__temp-day unit" title="Day temperature"></span>
+                                    <span class="day__temp-night unit" title="Night temperature"></span>
+                                </div>
+                            </div>
+                            <div class="day__status"></div>
+                        </div>
+                        <div class="details"> 
+                            <div class="details__item">
+                                <img class="details__image" src="images/wind64.png" title="Wind speed">
+                                <div class="details__wind"></div>
+                            </div>
+                            <div class="details__item">
+                                <img class="details__image" src="images/pressure64.png" title="Atmospheric pressure">
+                                <div class="details__pressure"></div>
+                            </div>
+                            <div class="details__item">
+                                <img class="details__image" src="images/humidity64.png" title="Air humidity">
+                                <div class="details__humidity"></div>
+                            </div>
+                            <div class="details__item">
+                                <img class="details__image" src="images/ultraviolet64.png" title="Ultraviolet index">
+                                <div class="details__uvi"></div>
+                            </div>
+                            <div class="details__item">
+                                <div class="details__time">6:00</div>
+                                <div class="details__temp-morning unit"></div>
+                            </div>
+                            <div class="details__item">
+                                <div class="details__time">12:00</div>
+                                <div class="details__temp-day unit"></div>
+                            </div>
+                            <div class="details__item">
+                                <div class="details__time">18:00</div>
+                                <div class="details__temp-evening unit"></div>
+                            </div>
+                            <div class="details__item">
+                                <div class="details__time">0:00</div>
+                                <div class="details__temp-night unit"></div>
+                            </div>
+                        </div>
+                    </article>
+                    <article class="day" tabindex="0">
+                        <div class="day__info">
+                            <div class="day__weather">
+                                <span class="day__week-day"></span>
+                                <div class="day__temps">
+                                    <span class="day__temp-day unit" title="Day temperature"></span>
+                                    <span class="day__temp-night unit" title="Night temperature"></span>
+                                </div>
+                            </div>
+                            <div class="day__status"></div>
+                        </div>
+                        <div class="details"> 
+                            <div class="details__item">
+                                <img class="details__image" src="images/wind64.png" title="Wind speed">
+                                <div class="details__wind"></div>
+                            </div>
+                            <div class="details__item">
+                                <img class="details__image" src="images/pressure64.png" title="Atmospheric pressure">
+                                <div class="details__pressure"></div>
+                            </div>
+                            <div class="details__item">
+                                <img class="details__image" src="images/humidity64.png" title="Air humidity">
+                                <div class="details__humidity"></div>
+                            </div>
+                            <div class="details__item">
+                                <img class="details__image" src="images/ultraviolet64.png" title="Ultraviolet index">
+                                <div class="details__uvi"></div>
+                            </div>
+                            <div class="details__item">
+                                <div class="details__time">6:00</div>
+                                <div class="details__temp-morning unit"></div>
+                            </div>
+                            <div class="details__item">
+                                <div class="details__time">12:00</div>
+                                <div class="details__temp-day unit"></div>
+                            </div>
+                            <div class="details__item">
+                                <div class="details__time">18:00</div>
+                                <div class="details__temp-evening unit"></div>
+                            </div>
+                            <div class="details__item">
+                                <div class="details__time">0:00</div>
+                                <div class="details__temp-night unit"></div>
+                            </div>
+                        </div>
+                    </article>
+                    <article class="day" tabindex="0">
+                        <div class="day__info">
+                            <div class="day__weather">
+                                <span class="day__week-day"></span>
+                                <div class="day__temps">
+                                    <span class="day__temp-day unit" title="Day temperature"></span>
+                                    <span class="day__temp-night unit" title="Night temperature"></span>
+                                </div>
+                            </div>
+                            <div class="day__status"></div>
+                        </div>
+                        <div class="details"> 
+                            <div class="details__item">
+                                <img class="details__image" src="images/wind64.png" title="Wind speed">
+                                <div class="details__wind"></div>
+                            </div>
+                            <div class="details__item">
+                                <img class="details__image" src="images/pressure64.png" title="Atmospheric pressure">
+                                <div class="details__pressure"></div>
+                            </div>
+                            <div class="details__item">
+                                <img class="details__image" src="images/humidity64.png" title="Air humidity">
+                                <div class="details__humidity"></div>
+                            </div>
+                            <div class="details__item">
+                                <img class="details__image" src="images/ultraviolet64.png" title="Ultraviolet index">
+                                <div class="details__uvi"></div>
+                            </div>
+                            <div class="details__item">
+                                <div class="details__time">6:00</div>
+                                <div class="details__temp-morning unit"></div>
+                            </div>
+                            <div class="details__item">
+                                <div class="details__time">12:00</div>
+                                <div class="details__temp-day unit"></div>
+                            </div>
+                            <div class="details__item">
+                                <div class="details__time">18:00</div>
+                                <div class="details__temp-evening unit"></div>
+                            </div>
+                            <div class="details__item">
+                                <div class="details__time">0:00</div>
+                                <div class="details__temp-night unit"></div>
+                            </div>
+                        </div>
+                    </article>
+                    <article class="day" tabindex="0">
+                        <div class="day__info">
+                            <div class="day__weather">
+                                <span class="day__week-day"></span>
+                                <div class="day__temps">
+                                    <span class="day__temp-day unit" title="Day temperature"></span>
+                                    <span class="day__temp-night unit" title="Night temperature"></span>
+                                </div>
+                            </div>
+                            <div class="day__status"></div>
+                        </div>
+                        <div class="details"> 
+                            <div class="details__item">
+                                <img class="details__image" src="images/wind64.png" title="Wind speed">
+                                <div class="details__wind"></div>
+                            </div>
+                            <div class="details__item">
+                                <img class="details__image" src="images/pressure64.png" title="Atmospheric pressure">
+                                <div class="details__pressure"></div>
+                            </div>
+                            <div class="details__item">
+                                <img class="details__image" src="images/humidity64.png" title="Air humidity">
+                                <div class="details__humidity"></div>
+                            </div>
+                            <div class="details__item">
+                                <img class="details__image" src="images/ultraviolet64.png" title="Ultraviolet index">
+                                <div class="details__uvi"></div>
+                            </div>
+                            <div class="details__item">
+                                <div class="details__time">6:00</div>
+                                <div class="details__temp-morning unit"></div>
+                            </div>
+                            <div class="details__item">
+                                <div class="details__time">12:00</div>
+                                <div class="details__temp-day unit"></div>
+                            </div>
+                            <div class="details__item">
+                                <div class="details__time">18:00</div>
+                                <div class="details__temp-evening unit"></div>
+                            </div>
+                            <div class="details__item">
+                                <div class="details__time">0:00</div>
+                                <div class="details__temp-night unit"></div>
+                            </div>
+                        </div>
+                    </article>
+                    <article class="day" tabindex="0">
+                        <div class="day__info">
+                            <div class="day__weather">
+                                <span class="day__week-day"></span>
+                                <div class="day__temps">
+                                    <span class="day__temp-day unit" title="Day temperature"></span>
+                                    <span class="day__temp-night unit" title="Night temperature"></span>
+                                </div>
+                            </div>
+                            <div class="day__status"></div>
+                        </div>
+                        <div class="details"> 
+                            <div class="details__item">
+                                <img class="details__image" src="images/wind64.png" title="Wind speed">
+                                <div class="details__wind"></div>
+                            </div>
+                            <div class="details__item">
+                                <img class="details__image" src="images/pressure64.png" title="Atmospheric pressure">
+                                <div class="details__pressure"></div>
+                            </div>
+                            <div class="details__item">
+                                <img class="details__image" src="images/humidity64.png" title="Air humidity">
+                                <div class="details__humidity"></div>
+                            </div>
+                            <div class="details__item">
+                                <img class="details__image" src="images/ultraviolet64.png" title="Ultraviolet index">
+                                <div class="details__uvi"></div>
+                            </div>
+                            <div class="details__item">
+                                <div class="details__time">6:00</div>
+                                <div class="details__temp-morning unit"></div>
+                            </div>
+                            <div class="details__item">
+                                <div class="details__time">12:00</div>
+                                <div class="details__temp-day unit"></div>
+                            </div>
+                            <div class="details__item">
+                                <div class="details__time">18:00</div>
+                                <div class="details__temp-evening unit"></div>
+                            </div>
+                            <div class="details__item">
+                                <div class="details__time">0:00</div>
+                                <div class="details__temp-night unit"></div>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+                <div class="favorites"></div>
+            </div>
+        </main>    
     </div>
+    <div class="background"></div>
 </body>
 <script src="main.js"></script>
 </html>
