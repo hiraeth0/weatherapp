@@ -1,4 +1,4 @@
-# Weather app made with vanulla Javascript
+# Weather app made with vanilla Javascript
 
 ![Thumbnail](thumbnail.png)
 
